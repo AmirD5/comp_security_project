@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+{% block title %}Dashboard – Comunication_LTD{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3 fw-normal text-center">Clients</h1>
+<form method="post" class="mb-4">
+  <input name="name" class="form-control mb-2" placeholder="Client name" required>
+  <input name="sector" class="form-control mb-2" placeholder="Sector">
+  <input name="plan" class="form-control mb-2" placeholder="Plan">
+  <button class="btn btn-success w-100 py-2" type="submit">Add client</button>
+</form>
+<ul class="list-group">
+  {% for c in clients %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        <strong>{{ c.name }}</strong><br>
+        <small class="text-muted">
+          Sector: {{ c.sector or "—" }} |
+          Plan: {{ c.plan or "—" }}
+        </small>
+      </div>
+
+      <form action="{{ url_for('delete_client', cid=c.id) }}" method="post" class="m-0">
+        <button class="btn btn-sm btn-outline-danger"
+                onclick="return confirm('Delete {{ c.name }}?');">
+          Delete
+        </button>
+      </form>
+    </li>
+  {% else %}
+    <li class="list-group-item text-center">No clients yet</li>
+  {% endfor %}
+</ul>
+<p class="mt-4 text-center">
+  <a href="{{ url_for('change_password') }}">Change password</a> |
+  <a href="{{ url_for('logout') }}">Logout</a>
+</p>
+{% endblock %}
